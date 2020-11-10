@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <input type="checkbox" id="check" checked="true">
+  <label for="check">
+    <i class="fas fa-bars" id="btn"></i>
+    <i class="fas fa-times" id="cancel"></i>
+  </label>
+  <div class="sidebar">
+    <header>My Menu</header>
+    <a href="#" class="active">
+      <i class="fas fa-qrcode"></i>
+      <span>Dashboard</span>
+    </a>
+    <a href="#">
+      <i class="fas fa-link"></i>
+      <span>Shortcuts</span>
+    </a>
+    <a href="#">
+      <i class="fas fa-stream"></i>
+      <span>Overview</span>
+    </a>
+    <a href="#">
+      <i class="fas fa-calendar"></i>
+      <span>Events</span>
+    </a>
+    <a href="#">
+      <i class="far fa-question-circle"></i>
+      <span>About</span>
+    </a>
+    <a href="#">
+      <i class="fas fa-sliders-h"></i>
+      <span>Services</span>
+    </a>
+    <a href="#">
+      <i class="far fa-envelope"></i>
+      <span>Contact</span>
+    </a>
+  </div>
+
+  <div class="table-container">
+    <div class="datatable">
+      <table class="table">
+        <tr>
+          <th><input type="checkbox" name="" id=""></th>
+          <th id="course_code ">Course code</th>
+          <th id="course">Course</th>
+          <th id="credit_hour">Credit hour</th>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="" id=""></td>
+          <td>CSC 1101</td>
+          <td>
+            <div id="editor">
+              <textarea  style="overflow: hidden" id='text' readonly>INTRODUCTION TO COMPUTER ORGANIZATION</textarea>
+            </div>
+          </td>
+          <td>3</td>
+          <td><button id="Edit" onclick="edit()">Edit</button> </td>
+        </tr>
+      </table>
+      <button type="submit">ADD BUTTON</button>
+    </div>
+
+    <div class="datatable">
+      <table class="table">
+        <tr>
+          <th><input type="checkbox" name="" id=""></th>
+          <th id="course_code ">Course code</th>
+          <th id="course">Course</th>
+          <th id="credit_hour">Credit hour</th>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="" id=""></td>
+          <td>CSC 1101</td>
+          <td>
+            <div id="editor">
+              <textarea style="overflow: hidden" id='text' readonly>ELEMENT OF PROGRAMMING</textarea>
+            </div>
+          </td>
+          <td>3</td>
+          <td><button id="Edit" onclick="edit()">Edit</button> </td>
+        </tr>
+      </table>
+      <button type="submit">ADD BUTTON</button>
+    </div>
+  
+
+  </div>
+  
+  <script>
+
+    
+
+    function edit() {
+      document.getElementById('text').removeAttribute('readonly');
+      document.getElementById('Edit').textContent = "Done" ;
+      document.getElementById('Edit' ).setAttribute( "onClick", "javascript: done();" );
+      document.getElementById('text').style.backgroundColor ="#ffffff";
+    }
+
+
+    function done(){
+      document.getElementById('text').readOnly = true;
+      document.getElementById('Edit').textContent = "Edit" ;
+      document.getElementById('Edit' ).setAttribute( "onClick", "javascript: edit();" );
+      document.getElementById('text').style.backgroundColor ="transparent";
+      scrolltop();
+      }
+
+
+      function scrolltop(){
+        var scr_top = document.getElementById("text");
+        scr_top.scrollLeft = 0;
+        scr_top.scrollTop = 0;
+      }
+  </script>
+
+</body>
+
+</html>
