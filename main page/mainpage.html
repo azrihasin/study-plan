@@ -49,58 +49,119 @@
     </a>
   </div>
 
-  <div class="table-container">
-    <div class="datatable">
-      <table class="table">
-        <tr>
-          <th><input type="checkbox" name="" id=""></th>
-          <th id="course_code ">Course code</th>
-          <th id="course">Course</th>
-          <th id="credit_hour">Credit hour</th>
-        </tr>
-        <tbody id="myTable">
 
-        </tbody>
-      </table>
-      <button type="submit">ADD BUTTON</button>
-    </div>
+  <button type="submit" onclick="newtable()" class="button-newtable">Add new sem</button>
 
-  
 
+  <div id="table-container" class="table-container">
+    
   </div>
-  
+
   <script>
 
-    var array = [
-    {
-      'sem':'1',
-      'id':'1',
-      'course_code':'csc',
-      'course':'computer',
-      'credit_hour':'3',
-      'taken':'false'
-    },
-    {
-      'sem':'1',
-      'id':'2',
-      'course_code':'csc',
-      'course':'computer',
-      'credit_hour':'3',
-      'taken':'false'
-    }]
+    var tablecounter = 1;
 
-    buildTable(array)
+  var array = [[{
+    'sem':'1',
+    'id':'1',
+    'course_code':'csc',
+    'course':'computer',
+    'credit_hour':'3',
+    'taken':'false'
+  },
+  {
+    'sem':'1',
+    'id':'2',
+    'course_code':'csc',
+    'course':'computer',
+    'credit_hour':'3',
+    'taken':'false'
+  }],
+  [{
+    'sem':'2',
+    'id':'1',
+    'course_code':'info',
+    'course':'computer',
+    'credit_hour':'3',
+    'taken':'false'
+  }]];
 
 
+  console.log( "array length " + array.length);
 
-    function buildTable(data){
-      var table = document.getElementById('myTable')
+    
   
-      for (var i = 0; i < data.length; i++){
+   initialize()
+ 
+ 
+     function initialize(){
+      
+     /*  data = {};
+
+       for (var i = 0; i < array.length; i++) {
+        data['sem'] = i;
+        data['id']='1';
+        data['course_code']='csc';
+        data['course'] ='com';
+        data['credit_hour']='3';
+        data['taken']='false';
+ 
+       window.array[i] = data ;
+      }
+ 
+       console.log(window.data.sem);*/
+     }
+ 
+ 
+
+
+
+
+    buildTable(window.array)
+
+
+
+    function buildTable(data) {
+
+      for(var i = 0; i < data.length; i++){
+
+      var tablecontainer = document.getElementById("table-container");
+      var tablespace = document.createElement("DIV");
+      var table = document.createElement("TABLE");
+      var addbtn = document.createElement("INPUT");
+
+      var header = `<tr>
+        <th><input type="checkbox" name="" id=""></th>
+        <th id="course_code ">Course code</th>
+        <th id="course">Course</th>
+        <th id="credit_hour">Credit hour</th>
+      </tr>`
+
+      var tr = document.createElement('tr');
+      tr.innerHTML = `<th><input type="checkbox" name="" id=""></th><th id="course_code ">Course code</th>
+      <th id="course">Course</th>
+      <th id="credit_hour">Credit hour</th>`
+
+      table.appendChild(tr);
+      table.setAttribute("class", "table");
+      table.setAttribute("id", i);
+
+      tablespace.setAttribute("class", "datatable");
+      tablespace.appendChild(table);
+      addbtn.setAttribute("type", "button");
+      addbtn.setAttribute("value", "Add Subject");
+      addbtn.setAttribute("id", "bt" +i);
+      addbtn.setAttribute("onclick","insertTableRow("+i+")");
+      tablespace.appendChild(addbtn);
+      tablecontainer.appendChild(tablespace);
+
+
+      for (var j = 0; j < data[i].length; j++){
 
       
-        var str1 = data[i].sem;
-        var str2 = data[i].id;
+      
+        var str1 = data[i][j].sem;
+        var str2 = data[i][j].id;
         var id = str1.concat(str2);
 
         var edit = id.concat('edit');
@@ -112,25 +173,78 @@
         
 
         var row = `<tr>
-                <td><input type="checkbox" name="  " id="${id}" value="${data[i].taken}"></td>
-                <td><textarea class = "text" style=" overflow: hidden" id='${course_code}' readonly>${data[i].course_code}</textarea></td>
-                <td><textarea class = "text" style="overflow: hidden" id='${course}' readonly>${data[i].course}</textarea></td>
-                <td><textarea class = "text" style="overflow: hidden" id='${credit_hour}' readonly>${data[i].credit_hour}</textarea></td>
+                <td><input type="checkbox" name="  " id="${id}" value="${data[i][j].taken}"></td>
+                <td><textarea class = "text" style=" overflow: hidden" id='${course_code}' readonly>${data[i][j].course_code}</textarea></td>
+                <td><textarea class = "text" style="overflow: hidden" id='${course}' readonly>${data[i][j].course}</textarea></td>
+                <td><textarea class = "text" style="overflow: hidden" id='${credit_hour}' readonly>${data[i][j].credit_hour}</textarea></td>
                 <td><button id="${edit}" onclick="edit(${id})">Edit</button> </td>
               </tr>`
         table.innerHTML += row
     
       }
-      console.log( table.rows.length );
+
+
+      }
+
     }
 
-    function insertTableRow() {
-      var newRow=document.getElementById('myTable').insertRow();
+
+    //create new table 
+
+
+    function newtable() {
+
+      var newtableid;
+
+      window.tablecounter = window.tablecounter + 1;
+
+      newtableid = window.tablecounter;
+
+      console.log("total table :" + newtableid);
+
+      var table = document.getElementsByTagName("TABLE");
+      var div = document.getElementById('table-container');
+      div.innerHTML += table;
+    }
+
+    function tablecounter() {
+
+    };
+
+
+
+    //add subject
+    function insertTableRow(sem) {
+
+      var id = ((document.getElementById(sem).rows.length) + 1);
+      
+  
+
+      var str1 = id.toString();
+      var str2 = 'edit';
+      
+
+      var unique = str1.concat(sem);
+      var edit = unique .concat(str2);
+      var checkbox = unique.concat('checkbox');
+      var course_code = unique.concat('course_code');
+      var course = unique.concat('course');
+      var credit_hour = unique.concat('credit_hour');
+
+
+
+      var newRow = document.getElementById(sem).insertRow();
       // newRow = "<td>New row text</td><td>New row 2nd cell</td>"; <-- won't work
-      newRow.innerHTML = "<td>New row text</td><td>New row 2nd cell</td>";
+      newRow.innerHTML = `
+                <td><input type="checkbox" name="  " id=${unique} value="false"></td>
+                <td><textarea class = "text" style=" overflow: hidden; background-color:white " id='${course_code}'  >Add course code</textarea></td>
+                <td><textarea class = "text" style="overflow: hidden; background-color:white" id='${course}' >Add course name</textarea></td>
+                <td><textarea class = "text" style="overflow: hidden;background-color:white" id='${credit_hour}'  >Add credit hour</textarea></td>
+                <td><button id="${edit}" onclick="done(${unique})">Done</button> </td>
+              `
     }
 
-    
+    //edit subject
 
     function edit(id) {
       var str1 = id.toString();
@@ -141,29 +255,28 @@
       var course_code = str1.concat('course_code');
       var course = str1.concat('course');
       var credit_hour = str1.concat('credit_hour');
-      
-      removereadonly(course_code,course,credit_hour);
-    
 
-      document.getElementById(edit).textContent = "Done" ;
-      document.getElementById(edit).setAttribute( "onClick", "javascript: done("+id+");" );
-      
+      removereadonly(course_code, course, credit_hour);
+
+
+      document.getElementById(edit).textContent = "Done";
+      document.getElementById(edit).setAttribute("onClick", "javascript: done(" + id + ");");
+
     }
 
-    function removereadonly(a,b,c){
+    function removereadonly(a, b, c) {
       document.getElementById(a).removeAttribute('readonly');
       document.getElementById(b).removeAttribute('readonly');
       document.getElementById(c).removeAttribute('readonly');
-    
 
-      document.getElementById(a).style.backgroundColor ="#ffffff";
-      document.getElementById(b).style.backgroundColor ="#ffffff";
-      document.getElementById(c).style.backgroundColor ="#ffffff";
-     
+
+      document.getElementById(a).style.backgroundColor = "#ffffff";
+      document.getElementById(b).style.backgroundColor = "#ffffff";
+      document.getElementById(c).style.backgroundColor = "#ffffff";
+
     }
 
-
-    function done(id){
+    function done(id) {
 
       var str1 = id.toString();;
       var str2 = 'edit';
@@ -174,36 +287,35 @@
       var course = str1.concat('course');
       var credit_hour = str1.concat('credit_hour');
 
-      addreadonly(course_code,course,credit_hour);
-      document.getElementById(edit).textContent = "Edit" ;
-      document.getElementById(edit).setAttribute( "onClick", "javascript: edit("+id+");" );
-      
-      }
+      addreadonly(course_code, course, credit_hour);
+      document.getElementById(edit).textContent = "Edit";
+      document.getElementById(edit).setAttribute("onClick", "javascript: edit(" + id + ");");
 
-      function addreadonly(a,b,c){
-        document.getElementById(a).readOnly = true;
-        document.getElementById(b).readOnly = true;
-        document.getElementById(c).readOnly = true;
-       
+    }
 
-        document.getElementById(a).style.backgroundColor ="transparent";
-        document.getElementById(b).style.backgroundColor ="transparent";   
-        document.getElementById(c).style.backgroundColor ="transparent";
-        scrolltop(a,b,c);
-      
-      }
+    function addreadonly(a, b, c) {
+      document.getElementById(a).readOnly = true;
+      document.getElementById(b).readOnly = true;
+      document.getElementById(c).readOnly = true;
 
 
-      function scrolltop(a,b,c){
-        
-        document.getElementById(a).scrollLeft = 0;
-        document.getElementById(b).scrollLeft = 0;
-        document.getElementById(c).scrollLeft = 0;
+      document.getElementById(a).style.backgroundColor = "transparent";
+      document.getElementById(b).style.backgroundColor = "transparent";
+      document.getElementById(c).style.backgroundColor = "transparent";
+      scrolltop(a, b, c);
 
-        document.getElementById(a).scrollTop = 0;
-        document.getElementById(b).scrollTop = 0;
-        document.getElementById(c).scrollTop = 0;
-      }
+    }
+
+    function scrolltop(a, b, c) {
+
+      document.getElementById(a).scrollLeft = 0;
+      document.getElementById(b).scrollLeft = 0;
+      document.getElementById(c).scrollLeft = 0;
+
+      document.getElementById(a).scrollTop = 0;
+      document.getElementById(b).scrollTop = 0;
+      document.getElementById(c).scrollTop = 0;
+    }
   </script>
 
 </body>

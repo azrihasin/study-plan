@@ -125,8 +125,7 @@ label #cancel{
 }
 
 .datatable{ 
-  margin: 5px;
-  /*margin-left: 255px;*/
+ margin: 6px;
 }
 
 .table{
@@ -134,6 +133,7 @@ label #cancel{
 	width: 100%;
   border-collapse: separate;
   border-spacing: 0 10px;
+ 
   
 }
 
@@ -162,7 +162,17 @@ label #cancel{
  
 }
 
-.table td,.table th{ 
+.table th:nth-child(3){
+  padding:10px;
+  padding-left: 6px;
+  padding-right: 6px;
+  min-width: 350px;
+  /*border:1px solid #ddd;*/
+  text-align: center;
+  font-size:12px;
+}
+
+.table td,table th{ 
   padding:10px;
   padding-left: 6px;
   padding-right: 6px;
@@ -171,6 +181,8 @@ label #cancel{
   font-size:12px;
  
 }
+
+
 
 .table th{
   background-color: none;
@@ -231,4 +243,11 @@ label #cancel{
   font-size: 12px;
   width:100%;
   height:20px;
+}
+
+.button-newtable{
+  position: absolute;
+  margin-top: 80px;
+  margin-left: 18%;
+
 }
