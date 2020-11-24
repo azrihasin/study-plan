@@ -51,7 +51,7 @@
 
 
   <button type="submit" onclick="newtable()" class="button-newtable">Add new sem</button>
-
+  <button type="submit" onclick="showjson()" class="button-showjson">Show json</button>
 
   <div id="table-container" class="table-container">
     
@@ -62,24 +62,16 @@
     var tablecounter = 1;
 
   var array = [[{
-    'sem':'1',
-    'id':'1',
+    'sem':'0',
+    'id':'0',
     'course_code':'csc',
     'course':'computer',
     'credit_hour':'3',
     'taken':'false'
-  },
-  {
-    'sem':'1',
-    'id':'2',
-    'course_code':'csc',
-    'course':'computer',
-    'credit_hour':'3',
-    'taken':'false'
-  }],
+  },],
   [{
-    'sem':'2',
-    'id':'1',
+    'sem':'1',
+    'id':'0',
     'course_code':'info',
     'course':'computer',
     'credit_hour':'3',
@@ -162,9 +154,15 @@
       
         var str1 = data[i][j].sem;
         var str2 = data[i][j].id;
-        var id = str1.concat(str2);
 
-        var edit = id.concat('edit');
+        var dash = str1.concat("_"); 
+
+    
+        var id = dash.concat(str2);
+
+        var unique = dash.concat(str2);
+        var slash = unique.concat("/");
+        var edit = slash.concat(str2);
         var checkbox = id.concat('checkbox');
         var course_code = id.concat('course_code');
         var course = id.concat('course');
@@ -173,11 +171,11 @@
         
 
         var row = `<tr>
-                <td><input type="checkbox" name="  " id="${id}" value="${data[i][j].taken}"></td>
+                <td><input type="checkbox" name="  " id="${unique}" value="${data[i][j].taken}"></td>
                 <td><textarea class = "text" style=" overflow: hidden" id='${course_code}' readonly>${data[i][j].course_code}</textarea></td>
                 <td><textarea class = "text" style="overflow: hidden" id='${course}' readonly>${data[i][j].course}</textarea></td>
                 <td><textarea class = "text" style="overflow: hidden" id='${credit_hour}' readonly>${data[i][j].credit_hour}</textarea></td>
-                <td><button id="${edit}" onclick="edit(${id})">Edit</button> </td>
+                <td><button id="${edit}" onclick="edit(this.id)">Edit</button> </td>
               </tr>`
         table.innerHTML += row
     
@@ -194,17 +192,89 @@
 
     function newtable() {
 
-      var newtableid;
+      var tablelength = window.array.length;
 
-      window.tablecounter = window.tablecounter + 1;
+      console.log("Lenght table:"+ tablelength);
 
-      newtableid = window.tablecounter;
+      var i = tablelength;
 
-      console.log("total table :" + newtableid);
+      var tablecontainer = document.getElementById("table-container");
+      var tablespace = document.createElement("DIV");
+      var table = document.createElement("TABLE");
+      var addbtn = document.createElement("INPUT");
 
-      var table = document.getElementsByTagName("TABLE");
-      var div = document.getElementById('table-container');
-      div.innerHTML += table;
+      var header = `<tr>
+        <th><input type="checkbox" name="" id=""></th>
+        <th id="course_code ">Course code</th>
+        <th id="course">Course</th>
+        <th id="credit_hour">Credit hour</th>
+      </tr>`
+
+      var tr = document.createElement('tr');
+      tr.innerHTML = `<th><input type="checkbox" name="" id=""></th><th id="course_code ">Course code</th>
+      <th id="course">Course</th>
+      <th id="credit_hour">Credit hour</th>`
+
+      table.appendChild(tr);
+      table.setAttribute("class", "table");
+      table.setAttribute("id", i);
+
+      tablespace.setAttribute("class", "datatable");
+      tablespace.appendChild(table);
+      addbtn.setAttribute("type", "button");
+      addbtn.setAttribute("value", "Add Subject");
+      addbtn.setAttribute("id", "bt" +i);
+      addbtn.setAttribute("onclick","insertTableRow("+i+")");
+      tablespace.appendChild(addbtn);
+      tablecontainer.appendChild(tablespace);
+
+      var newarray = [];
+
+      window.array.push(newarray);
+
+      var postdata = {
+        'sem': 'sem',
+        'id': 'id',
+        'course_code':'Course code',
+        'course':'Course',
+        'credit_hour':'Credit Hour',
+        'taken':'false'
+      };
+      
+      window.array[i].push(postdata) ; 
+      
+        var str1 = window.array[i][0].sem;
+        var str2 = window.array[i][0].id;
+
+        var dash = str1.concat("_"); 
+
+    
+        var id = dash.concat(str2);
+
+        var unique = dash.concat(str2);
+        var slash = unique.concat("/");
+        var edit = slash.concat(str2);
+        var checkbox = id.concat('checkbox');
+        var course_code = id.concat('course_code');
+        var course = id.concat('course');
+        var credit_hour = id.concat('credit_hour');
+
+        
+
+        var row = `<tr>
+                <td><input type="checkbox" name="  " id="${unique}" value="${window.array[i][0].taken}"></td>
+                <td><textarea class = "text" style=" overflow: hidden" id='${course_code}' readonly>${window.array[i][0].course_code}</textarea></td>
+                <td><textarea class = "text" style="overflow: hidden" id='${course}' readonly>${window.array[i][0].course}</textarea></td>
+                <td><textarea class = "text" style="overflow: hidden" id='${credit_hour}' readonly>${window.array[i][0].credit_hour}</textarea></td>
+                <td><button id="${edit}" onclick="edit(this.id)">Edit</button> </td>
+              </tr>`
+        table.innerHTML += row
+    
+      
+
+
+      
+
     }
 
     function tablecounter() {
@@ -216,22 +286,25 @@
     //add subject
     function insertTableRow(sem) {
 
-      var id = ((document.getElementById(sem).rows.length) + 1);
-      
-  
+
+      var id = (window.array[sem].length);
+
+      console.log("Length of array :"+id);
 
       var str1 = id.toString();
       var str2 = 'edit';
-      
+      var str3 = sem.toString();      
+      var dash = str3.concat("_"); 
 
-      var unique = str1.concat(sem);
-      var edit = unique .concat(str2);
+      var unique = dash.concat(str1);
+      var slash = unique.concat("/");
+      var edit = slash.concat(str2);
       var checkbox = unique.concat('checkbox');
       var course_code = unique.concat('course_code');
       var course = unique.concat('course');
       var credit_hour = unique.concat('credit_hour');
 
-
+      unique=unique.toString();
 
       var newRow = document.getElementById(sem).insertRow();
       // newRow = "<td>New row text</td><td>New row 2nd cell</td>"; <-- won't work
@@ -240,16 +313,39 @@
                 <td><textarea class = "text" style=" overflow: hidden; background-color:white " id='${course_code}'  >Add course code</textarea></td>
                 <td><textarea class = "text" style="overflow: hidden; background-color:white" id='${course}' >Add course name</textarea></td>
                 <td><textarea class = "text" style="overflow: hidden;background-color:white" id='${credit_hour}'  >Add credit hour</textarea></td>
-                <td><button id="${edit}" onclick="done(${unique})">Done</button> </td>
+                <td><button id="${edit}" onclick="done(this.id)">Done</button> </td>
               `
+
+
+      //modified json
+
+      var data = window.array;
+      //newlength
+
+
+      var postdata = {
+        'sem': 'sem',
+        'id': 'id',
+        'course_code':'Course code',
+        'course':'Course',
+        'credit_hour':'Credit Hour',
+        'taken':'false'
+      };
+      
+      window.array[sem].push(postdata) ;   
+
     }
 
     //edit subject
 
     function edit(id) {
-      var str1 = id.toString();
+      
+      console.log("Edit id: "+ id);
+
+      var res = id.split("/");
+      var str1 = res[0].toString();;
       var str2 = 'edit';
-      var edit = str1.concat(str2);
+      var edit = id;
 
       var checkbox = str1.concat('checkbox');
       var course_code = str1.concat('course_code');
@@ -260,7 +356,7 @@
 
 
       document.getElementById(edit).textContent = "Done";
-      document.getElementById(edit).setAttribute("onClick", "javascript: done(" + id + ");");
+      document.getElementById(edit).setAttribute("onClick", "javascript: done(this.id);");
 
     }
 
@@ -277,10 +373,13 @@
     }
 
     function done(id) {
+    
+      console.log("Id :"+ id);
 
-      var str1 = id.toString();;
+      var res = id.split("/");
+      var str1 = res[0].toString();;
       var str2 = 'edit';
-      var edit = str1.concat(str2);
+      var edit = id;
 
       var checkbox = str1.concat('checkbox');
       var course_code = str1.concat('course_code');
@@ -289,11 +388,25 @@
 
       addreadonly(course_code, course, credit_hour);
       document.getElementById(edit).textContent = "Edit";
-      document.getElementById(edit).setAttribute("onClick", "javascript: edit(" + id + ");");
+      document.getElementById(edit).setAttribute("onClick", "javascript: edit(this.id);");
+
+      var change = res[0].split("_");
+      var x =parseInt( change[0]);
+      var y =parseInt( change[1]);
+
+      console.log( "x :"+ x +", y :"+ y);
+
+      window.array[x][y].sem= x;
+      window.array[x][y].id= y;
+      window.array[x][y].course = document.getElementById(course).value;
+      window.array[x][y].course_code= document.getElementById(course_code).value;
+      window.array[x][y].credit_hour= document.getElementById(credit_hour).value;
+      window.array[x][y].taken=document.getElementById(res[0]).value;
 
     }
 
     function addreadonly(a, b, c) {
+      console.log(a);
       document.getElementById(a).readOnly = true;
       document.getElementById(b).readOnly = true;
       document.getElementById(c).readOnly = true;
@@ -316,6 +429,13 @@
       document.getElementById(b).scrollTop = 0;
       document.getElementById(c).scrollTop = 0;
     }
+
+
+    function showjson(){
+      
+      console.log(array);
+     
+  }
   </script>
 
 </body>
